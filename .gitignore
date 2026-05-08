@@ -1,0 +1,15 @@
+.DS_Store
+.vscode/
+.kiro/
+.pytest_cache/
+backend/
+frontend/
+infra/
+guide/
+*.pyc
+__pycache__/
+node_modules/
+deploy.sh
+kiro_ambassador_application.md
+회의록_*
+network/planner_test.js
