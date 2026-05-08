@@ -1,133 +1,136 @@
 # ☁️ AWS ANS-C01 Practice Exam
 
-AWS Certified Advanced Networking Specialty (ANS-C01) 자격증 대비 모의시험 웹 애플리케이션입니다.
+A web-based practice exam application for the AWS Certified Advanced Networking Specialty (ANS-C01) certification.
+
+🇰🇷 [한국어 README](README_ko.md)
 
 ---
 
 ## 🤖 Built with Kiro
 
-> 이 프로젝트는 **100% [Kiro](https://kiro.dev) AI IDE**로 만들었습니다.
-> 코드 한 줄도 직접 타이핑하지 않았습니다.
+> This entire project was built **100% with [Kiro](https://kiro.dev) AI IDE**.
+> Not a single line of code was manually typed.
 
-### Kiro가 한 일
+### What Kiro Did
 
-| 단계 | Kiro가 수행한 작업 |
-|------|-------------------|
-| 🎯 설계 | 자연어로 "학습 플래너 만들어줘"라고 요청 → 전체 아키텍처 설계 |
-| 💻 구현 | HTML/CSS/JS 코드 전체 작성 (프론트엔드 프레임워크 없이 바닐라 JS) |
-| 🔄 반복 개선 | "덤프 날짜 지워줘", "다시 풀기 버튼 추가해줘" 등 자연어 피드백으로 즉시 수정 |
-| 📝 콘텐츠 | 272문제 중 100문제의 상세 해설 생성 (정답 이유 + 오답 분석) |
-| 🚀 배포 | S3 업로드 + CloudFront 캐시 무효화까지 CLI 명령어 자동 실행 |
-| 🐛 디버깅 | "아직 안 나오는데?" → S3에 파일이 안 올라간 것을 발견하고 즉시 해결 |
-| 📊 Git | 저장소 초기화, .gitignore 설정, 커밋, push까지 자동 처리 |
+| Phase | What Kiro Performed |
+|-------|-------------------|
+| 🎯 Design | Received natural language request "build a study planner" → designed full architecture |
+| 💻 Implementation | Wrote all HTML/CSS/JS code (vanilla JS, no frameworks) |
+| 🔄 Iteration | Instant modifications from feedback like "remove dump date", "add retry button" |
+| 📝 Content | Generated detailed explanations for 100 out of 272 questions (correct answer reasoning + wrong answer analysis) |
+| 🚀 Deployment | Executed S3 upload + CloudFront cache invalidation via CLI automatically |
+| 🐛 Debugging | "It's still not showing" → discovered files weren't uploaded to S3 → fixed immediately |
+| 📊 Git | Repository init, .gitignore setup, commit, and push — all automated |
 
-### 실제 대화 예시
+### Real Conversation Examples
 
 ```
-나: "학습 플래너에 덤프 날짜 지워줘"
-Kiro: [3개 파일에서 관련 코드 제거 + S3 업로드 + CloudFront 무효화]
+Me: "Remove the dump date from the study planner"
+Kiro: [Removed related code from 3 files + S3 upload + CloudFront invalidation]
 
-나: "시험 예정일 하루이틀 전에는 1회독 끝내게 설계하는게 좋지 않을까?"
-Kiro: [REVIEW_BUFFER_DAYS 상수 추가 + 할당량 계산 로직 변경 + 대시보드 UI 업데이트]
+Me: "Shouldn't we finish the first pass 1-2 days before the exam?"
+Kiro: [Added REVIEW_BUFFER_DAYS constant + modified quota calculation + updated dashboard UI]
 
-나: "해설이 줄바꿈 없이 나와서 가시성이 안좋아"
-Kiro: [esc() 함수에서 \n을 <br>로 변환하는 한 줄 수정 + 배포]
+Me: "The explanation has no line breaks, readability is bad"
+Kiro: [One-line fix in esc() function: \n → <br> + deployed]
 
-나: "오늘의 문제에서 다시풀기도 만들어줘"
-Kiro: [HTML에 버튼 추가 + JS에 resetDaily() 함수 구현 + 배포]
+Me: "Add a retry button to today's questions"
+Kiro: [Added button to HTML + implemented resetDaily() in JS + deployed]
 ```
 
-### Kiro 워크플로우 상세
+### Kiro Workflow
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  1. 자연어로 요구사항 전달                                │
-│     "시험 날짜 설정하고 매일 할당된 문제만 풀게 해줘"       │
+│  1. Describe requirements in natural language            │
+│     "Let me set exam date and solve daily assigned       │
+│      questions only"                                     │
 └────────────────────────┬────────────────────────────────┘
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  2. Kiro가 설계 + 구현                                    │
-│     - 아키텍처 설계 (localStorage, 일일 할당, 복습 로직)    │
-│     - HTML/CSS/JS 코드 작성                               │
-│     - 기존 코드 스타일에 맞춰 통합                         │
+│  2. Kiro designs + implements                            │
+│     - Architecture (localStorage, daily quota, review)   │
+│     - Full HTML/CSS/JS code                              │
+│     - Integrates with existing code style                │
 └────────────────────────┬────────────────────────────────┘
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  3. 즉시 배포 + 검증                                      │
-│     - aws s3 cp → CloudFront invalidation → 완료 확인     │
-│     - 브라우저 캐시 문제까지 자동 해결 (?v=N 쿼리스트링)    │
+│  3. Instant deployment + verification                    │
+│     - aws s3 cp → CloudFront invalidation → confirmed   │
+│     - Auto-fixes browser cache issues (?v=N querystring) │
 └────────────────────────┬────────────────────────────────┘
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  4. 피드백 → 즉시 반영                                    │
-│     "아직 안 나오는데?" → 원인 분석 → 수정 → 재배포        │
-│     전체 사이클: 대화 1~2턴으로 완료                       │
+│  4. Feedback → immediate reflection                      │
+│     "Still not showing" → root cause analysis → fix →    │
+│     redeploy. Full cycle: 1-2 conversation turns.        │
 └─────────────────────────────────────────────────────────┘
 ```
 
-### 왜 Kiro인가
+### Why Kiro
 
-- **제로 코딩**: 프론트엔드 개발 경험 없이도 완전한 웹앱 구축
-- **풀스택 자동화**: 코드 작성뿐 아니라 AWS CLI 실행, Git 관리, 배포까지 원스톱
-- **실시간 디버깅**: "안 되는데?"라고 말하면 S3 파일 확인 → CloudFront 캐시 확인 → 원인 파악 → 해결
-- **도메인 지식 활용**: AWS 네트워킹 272문제의 상세 해설을 AWS 서비스 동작 원리 기반으로 생성
-- **컨텍스트 유지**: 하나의 대화에서 설계 → 구현 → 배포 → 버그 수정 → 기능 추가를 연속으로 진행
+- **Zero coding required**: Built a complete web app without frontend development experience
+- **Full-stack automation**: Not just code generation — AWS CLI execution, Git management, and deployment in one flow
+- **Real-time debugging**: Say "it's not working" → Kiro checks S3 files → checks CloudFront cache → identifies root cause → fixes
+- **Domain knowledge**: Generated detailed explanations for 272 AWS networking questions based on service behavior principles
+- **Context continuity**: Design → implement → deploy → debug → add features — all in a single continuous conversation
 
 ---
 
-## 기능
+## Features
 
-### 시험 모드
-- 📝 **시험 모드** — 실제 시험처럼 모든 문제를 풀고 제출
-- 📖 **학습 모드** — 문제를 풀면 바로 정답과 해설 확인
-- 🎲 **랜덤 모드** — 문제 순서를 랜덤으로 섞어서 학습
-- 👀 **정답 보기 모드** — 모든 문제의 정답과 해설을 한눈에 확인
+### Exam Modes
+- 📝 **Exam Mode** — Simulate real exam, submit all answers at once
+- 📖 **Study Mode** — See correct answer and explanation immediately after answering
+- 🎲 **Random Mode** — Shuffled question order for varied practice
+- 👀 **Answer View** — Browse all questions with answers and explanations
 
-### 학습 플래너
-- 📅 시험 날짜 설정 → 하루 할당량 자동 계산
-- 📖 시험 전 마지막 2일은 전체 복습 기간으로 자동 확보
-- 📆 학습 기록 달력 (✅ 학습 완료 / ❌ 미학습)
-- 📕 오답 노트 → 틀린 문제 자동 수집 + 다음 날 복습
-- 🔄 다시 풀기 — 오늘의 문제를 반복 학습
+### Study Planner
+- 📅 Set exam date → automatic daily quota calculation
+- 📖 Last 2 days before exam reserved for full review automatically
+- 📆 Study calendar (✅ completed / ❌ missed)
+- 📕 Wrong answer notebook → auto-collected, reviewed next day
+- 🔄 Retry — re-solve today's questions for repetition
 
-### 해설
-- 정답이 맞는 이유 (AWS 서비스 동작 원리 기반)
-- 각 오답이 틀린 이유 분석
-- 줄바꿈으로 가독성 확보
+### Explanations
+- Why the correct answer is right (based on AWS service behavior)
+- Why each wrong answer is incorrect
+- Formatted with line breaks for readability
 
-## 기술 스택
+## Tech Stack
 
-| 구분 | 기술 |
-|------|------|
+| Layer | Technology |
+|-------|-----------|
 | Frontend | Vanilla HTML/CSS/JavaScript |
 | Storage | Browser localStorage |
 | Hosting | Amazon S3 + CloudFront |
 | AI IDE | Kiro |
 
-## 프로젝트 구조
+## Project Structure
 
 ```
-├── index.html                    # 시험 선택 페이지
+├── index.html                    # Exam selection page
 ├── network/
-│   ├── index.html                # ANS-C01 메인 페이지
-│   ├── app.js                    # 시험 모드 로직
-│   ├── planner.js                # 학습 플래너 (대시보드, 달력)
-│   ├── planner2.js               # 학습 플래너 (복습, 오늘의 문제)
-│   └── questions.js              # 272문제 데이터 + 해설
-├── AWS_ANS-C01_CheatSheet.md     # 시험 요약 치트시트
-└── AWS_ExamApp_Architecture.md   # 앱 설계 문서
+│   ├── index.html                # ANS-C01 main page
+│   ├── app.js                    # Exam mode logic
+│   ├── planner.js                # Study planner (dashboard, calendar)
+│   ├── planner2.js               # Study planner (review, daily questions)
+│   └── questions.js              # 272 questions + explanations
+├── AWS_ANS-C01_CheatSheet.md     # Exam cheat sheet
+└── AWS_ExamApp_Architecture.md   # App architecture document
 ```
 
-## 배포
+## Deployment
 
 ```bash
-# S3 업로드
+# Upload to S3
 aws s3 sync . s3://YOUR-BUCKET-NAME --exclude ".*" --exclude "README.md"
 
-# CloudFront 캐시 무효화
+# Invalidate CloudFront cache
 aws cloudfront create-invalidation --distribution-id YOUR-DIST-ID --paths "/*"
 ```
 
-## 라이선스
+## License
 
-이 프로젝트는 개인 학습 목적으로 제작되었습니다.
+This project was created for personal study purposes.
